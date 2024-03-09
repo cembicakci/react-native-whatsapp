@@ -12,7 +12,7 @@ export const defaultStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    gap: 10,
+    gap: 10
   },
   separator: {
     height: StyleSheet.hairlineWidth,
