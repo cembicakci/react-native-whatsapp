@@ -91,6 +91,7 @@ const InitialLayput = () => {
                     headerBackTitle: "Edit Number",
                 }}
             />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
     );
 };

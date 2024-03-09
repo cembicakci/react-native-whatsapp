@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Chats = () => {
+const Updates = () => {
     return (
         <View>
-            <Text>Chats</Text>
+            <Text>Updates</Text>
         </View>
     );
 };
 
-export default Chats;
+export default Updates;
 
 const styles = StyleSheet.create({});
