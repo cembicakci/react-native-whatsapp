@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Image,
+    Linking,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import welcomeImage from "@/assets/images/welcome.png";
 import Colors from "@/constants/Colors";
 import { Link } from "expo-router";
@@ -7,7 +14,9 @@ import { Link } from "expo-router";
 const welcomeImage_image = Image.resolveAssetSource(welcomeImage).uri;
 
 const Page = () => {
-    const openLink = () => {};
+    const openLink = () => {
+        Linking.openURL("https://www.google.com");
+    };
 
     return (
         <View style={styles.container}>
