@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Colors from "@/constants/Colors";
 import { useAuth } from "@clerk/clerk-expo";
@@ -70,7 +70,7 @@ const Settings = () => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
-            <ScrollView>
+            <ScrollView contentInsetAdjustmentBehavior="automatic">
                 <View style={defaultStyles.block}>
                     <FlatList
                         data={devices}
@@ -87,6 +87,53 @@ const Settings = () => {
                         }}
                     />
                 </View>
+
+                <View style={defaultStyles.block}>
+                    <FlatList
+                        data={items}
+                        scrollEnabled={false}
+                        ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={defaultStyles.item}>
+                                    <BoxedIcon name={item.icon} backgroundColor={item.backgroundColor} />
+                                    <Text style={{ fontSize: 18, flex: 1 }}>{item.name}</Text>
+                                    <Ionicons name="chevron-forward" size={20} color={Colors.gray} />
+                                </View>
+                            );
+                        }}
+                    />
+                </View>
+
+                <View style={defaultStyles.block}>
+                    <FlatList
+                        data={support}
+                        scrollEnabled={false}
+                        ItemSeparatorComponent={() => <View style={defaultStyles.separator} />}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={defaultStyles.item}>
+                                    <BoxedIcon name={item.icon} backgroundColor={item.backgroundColor} />
+                                    <Text style={{ fontSize: 18, flex: 1 }}>{item.name}</Text>
+                                    <Ionicons name="chevron-forward" size={20} color={Colors.gray} />
+                                </View>
+                            );
+                        }}
+                    />
+                </View>
+
+                <TouchableOpacity onPress={() => signOut()}>
+                    <Text
+                        style={{
+                            color: Colors.primary,
+                            fontSize: 18,
+                            textAlign: "center",
+                            paddingVertical: 14,
+                        }}
+                    >
+                        Log Out
+                    </Text>
+                </TouchableOpacity>
             </ScrollView>
         </View>
     );
