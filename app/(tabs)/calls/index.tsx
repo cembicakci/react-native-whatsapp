@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    FlatList,
+    Image,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { Stack } from "expo-router";
 import Colors from "@/constants/Colors";
 import calls from "@/assets/data/calls.json";
 import { defaultStyles } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
+import { format } from "date-fns";
 
 const Calls = () => {
     const [items, setItems] = useState(calls);
@@ -29,7 +38,10 @@ const Calls = () => {
                     },
                 }}
             />
-            <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <ScrollView
+                contentInsetAdjustmentBehavior="automatic"
+                contentContainerStyle={{ paddingBottom: 40 }}
+            >
                 <View style={defaultStyles.block}>
                     <FlatList
                         data={items}
@@ -41,7 +53,12 @@ const Calls = () => {
                                 <View style={defaultStyles.item}>
                                     <Image source={{ uri: item.img }} style={styles.avatar} />
                                     <View style={{ flex: 1, gap: 2 }}>
-                                        <Text style={{ fontSize: 18, color: item.missed ? Colors.red : "#000" }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                color: item.missed ? Colors.red : "#000",
+                                            }}
+                                        >
                                             {item.name}
                                         </Text>
                                         <View style={{ flexDirection: "row", gap: 4 }}>
@@ -54,6 +71,22 @@ const Calls = () => {
                                                 {item.incoming ? "Incoming" : "Outgoing"}
                                             </Text>
                                         </View>
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: "row",
+                                            gap: 6,
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        <Text style={{ color: Colors.gray }}>
+                                            {format(item.date, "MM.dd.yy")}
+                                        </Text>
+                                        <Ionicons
+                                            name="information-circle-outline"
+                                            size={24}
+                                            color={Colors.primary}
+                                        />
                                     </View>
                                 </View>
                             );
