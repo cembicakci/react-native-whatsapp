@@ -14,9 +14,7 @@ const Layout = () => {
                     headerLargeTitle: true,
                     headerTransparent: true,
                     headerBlurEffect: "regular",
-                    headerStyle: {
-                        backgroundColor: Colors.background,
-                    },
+                    // headerStyle: { backgroundColor: Colors.background },
                     headerSearchBarOptions: {
                         placeholder: "Search",
                     },
