@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FlatList,
     Image,
@@ -14,14 +14,24 @@ import calls from "@/assets/data/calls.json";
 import { defaultStyles } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
+import { SegmentedControl } from "@/components/SegmentedControl";
 
 const Calls = () => {
     const [items, setItems] = useState(calls);
     const [isEditing, setIsEditing] = useState(false);
+    const [selectedOption, setSelectedOption] = useState("All");
 
     const onEdit = () => {
         setIsEditing((prev) => !prev);
     };
+
+    useEffect(() => {
+        if (selectedOption === "All") {
+            setItems(calls);
+        } else {
+            setItems(calls.filter((item) => item.missed));
+        }
+    }, [selectedOption]);
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
@@ -34,6 +44,15 @@ const Calls = () => {
                                     {isEditing ? "Done" : "Edit"}
                                 </Text>
                             </TouchableOpacity>
+                        );
+                    },
+                    headerTitle: () => {
+                        return (
+                            <SegmentedControl
+                                options={["All", "Missed"]}
+                                selectedOption={selectedOption}
+                                onOptionPress={setSelectedOption}
+                            />
                         );
                     },
                 }}
