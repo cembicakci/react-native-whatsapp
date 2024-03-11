@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from "react";
-import {
-    FlatList,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Animated, {
+    CurvedTransition,
+    FadeInUp,
+    FadeOutUp,
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
+} from "react-native-reanimated";
+
+import * as Haptics from "expo-haptics";
 import { Stack } from "expo-router";
-import Colors from "@/constants/Colors";
-import calls from "@/assets/data/calls.json";
-import { defaultStyles } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
+
+import calls from "@/assets/data/calls.json";
+
+import Colors from "@/constants/Colors";
+import { defaultStyles } from "@/constants/Styles";
+
 import { format } from "date-fns";
 import { SegmentedControl } from "@/components/SegmentedControl";
-import Animated, { CurvedTransition, FadeInUp, FadeOutUp } from "react-native-reanimated";
 import SwipeableRow from "@/components/SwipeableRow";
-import * as Haptics from 'expo-haptics';
 
 const transition = CurvedTransition.delay(100);
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const Calls = () => {
     const [items, setItems] = useState(calls);
     const [isEditing, setIsEditing] = useState(false);
     const [selectedOption, setSelectedOption] = useState("All");
 
+    const editing = useSharedValue(-30);
+
     const onEdit = () => {
-        setIsEditing((prev) => !prev);
+        let editingNew = !isEditing;
+        editing.value = editingNew ? 0 : -30;
+        setIsEditing(editingNew);
     };
 
     useEffect(() => {
@@ -42,6 +50,14 @@ const Calls = () => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         setItems(items.filter((item) => item.id !== toDelete.id));
     };
+
+    const animatedRowStyles = useAnimatedStyle(() => ({
+        transform: [{ translateX: withTiming(editing.value) }],
+    }));
+
+    const animatedPosition = useAnimatedStyle(() => ({
+        transform: [{ translateX: withTiming(editing.value) }],
+    }));
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
@@ -85,12 +101,23 @@ const Calls = () => {
                                     <Animated.View
                                         entering={FadeInUp.delay(index * 20)}
                                         exiting={FadeOutUp}
+                                        style={{ flexDirection: "row", alignItems: "center" }}
                                     >
-                                        <View style={defaultStyles.item}>
-                                            <Image
-                                                source={{ uri: item.img }}
-                                                style={styles.avatar}
-                                            />
+                                        <AnimatedTouchableOpacity
+                                            style={[animatedPosition, { paddingLeft: 8 }]}
+                                            onPress={() => removeCall(item)}
+                                        >
+                                            <Ionicons name="remove-circle" size={24} color={Colors.red} />
+                                        </AnimatedTouchableOpacity>
+
+                                        <Animated.View
+                                            style={[
+                                                defaultStyles.item,
+                                                { paddingLeft: 20 },
+                                                animatedRowStyles,
+                                            ]}
+                                        >
+                                            <Image source={{ uri: item.img }} style={styles.avatar} />
                                             <View style={{ flex: 1, gap: 2 }}>
                                                 <Text
                                                     style={{
@@ -127,7 +154,7 @@ const Calls = () => {
                                                     color={Colors.primary}
                                                 />
                                             </View>
-                                        </View>
+                                        </Animated.View>
                                     </Animated.View>
                                 </SwipeableRow>
                             );
