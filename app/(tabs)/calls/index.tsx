@@ -15,7 +15,9 @@ import { defaultStyles } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
 import { format } from "date-fns";
 import { SegmentedControl } from "@/components/SegmentedControl";
-import Animated, { CurvedTransition, FadeIn, FadeInUp, FadeOutUp } from "react-native-reanimated";
+import Animated, { CurvedTransition, FadeInUp, FadeOutUp } from "react-native-reanimated";
+import SwipeableRow from "@/components/SwipeableRow";
+import * as Haptics from 'expo-haptics';
 
 const transition = CurvedTransition.delay(100);
 
@@ -35,6 +37,11 @@ const Calls = () => {
             setItems(calls.filter((item) => item.missed));
         }
     }, [selectedOption]);
+
+    const removeCall = (toDelete: any) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        setItems(items.filter((item) => item.id !== toDelete.id));
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
@@ -74,50 +81,55 @@ const Calls = () => {
                         skipEnteringExitingAnimations
                         renderItem={({ item, index }) => {
                             return (
-                                <Animated.View
-                                    entering={FadeInUp.delay(index * 20)}
-                                    exiting={FadeOutUp}
-                                >
-                                    <View style={defaultStyles.item}>
-                                        <Image source={{ uri: item.img }} style={styles.avatar} />
-                                        <View style={{ flex: 1, gap: 2 }}>
-                                            <Text
+                                <SwipeableRow onDelete={() => removeCall(item)}>
+                                    <Animated.View
+                                        entering={FadeInUp.delay(index * 20)}
+                                        exiting={FadeOutUp}
+                                    >
+                                        <View style={defaultStyles.item}>
+                                            <Image
+                                                source={{ uri: item.img }}
+                                                style={styles.avatar}
+                                            />
+                                            <View style={{ flex: 1, gap: 2 }}>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 18,
+                                                        color: item.missed ? Colors.red : "#000",
+                                                    }}
+                                                >
+                                                    {item.name}
+                                                </Text>
+                                                <View style={{ flexDirection: "row", gap: 4 }}>
+                                                    <Ionicons
+                                                        name={item.video ? "videocam" : "call"}
+                                                        size={16}
+                                                        color={Colors.gray}
+                                                    />
+                                                    <Text style={{ color: Colors.gray, flex: 1 }}>
+                                                        {item.incoming ? "Incoming" : "Outgoing"}
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <View
                                                 style={{
-                                                    fontSize: 18,
-                                                    color: item.missed ? Colors.red : "#000",
+                                                    flexDirection: "row",
+                                                    gap: 6,
+                                                    alignItems: "center",
                                                 }}
                                             >
-                                                {item.name}
-                                            </Text>
-                                            <View style={{ flexDirection: "row", gap: 4 }}>
-                                                <Ionicons
-                                                    name={item.video ? "videocam" : "call"}
-                                                    size={16}
-                                                    color={Colors.gray}
-                                                />
-                                                <Text style={{ color: Colors.gray, flex: 1 }}>
-                                                    {item.incoming ? "Incoming" : "Outgoing"}
+                                                <Text style={{ color: Colors.gray }}>
+                                                    {format(item.date, "MM.dd.yy")}
                                                 </Text>
+                                                <Ionicons
+                                                    name="information-circle-outline"
+                                                    size={24}
+                                                    color={Colors.primary}
+                                                />
                                             </View>
                                         </View>
-                                        <View
-                                            style={{
-                                                flexDirection: "row",
-                                                gap: 6,
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <Text style={{ color: Colors.gray }}>
-                                                {format(item.date, "MM.dd.yy")}
-                                            </Text>
-                                            <Ionicons
-                                                name="information-circle-outline"
-                                                size={24}
-                                                color={Colors.primary}
-                                            />
-                                        </View>
-                                    </View>
-                                </Animated.View>
+                                    </Animated.View>
+                                </SwipeableRow>
                             );
                         }}
                     />
