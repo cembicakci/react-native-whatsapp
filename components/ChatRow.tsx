@@ -31,7 +31,7 @@ const ChatRow: FC<ChatRowProps> = ({ id, from, date, img, msg, read, unreadCount
                     >
                         <Image source={{ uri: img }} style={{ width: 50, height: 50, borderRadius: 50 }} />
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, color: read ? "#000" : "#000ff" }}>{from}</Text>
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>{from}</Text>
                             <Text style={{ color: "#888" }}>
                                 {msg.length > 40 ? `${msg.substring(0, 40)}...` : msg}
                             </Text>
