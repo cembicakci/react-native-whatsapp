@@ -24,7 +24,9 @@ const Layout = () => {
                     name="updates"
                     options={{
                         title: "Updates",
-                        tabBarIcon: ({ size, color }) => <MaterialIcons name="update" size={size} color={color} />,
+                        tabBarIcon: ({ size, color }) => (
+                            <MaterialIcons name="update" size={size} color={color} />
+                        ),
                     }}
                 />
                 <Tabs.Screen
@@ -41,14 +43,19 @@ const Layout = () => {
                     name="communities"
                     options={{
                         title: "Communities",
-                        tabBarIcon: ({ size, color }) => <MaterialIcons name="people" size={size} color={color} />,
+                        tabBarIcon: ({ size, color }) => (
+                            <MaterialIcons name="people" size={size} color={color} />
+                        ),
                     }}
                 />
                 <Tabs.Screen
                     name="chats"
                     options={{
+                        headerShown: false,
                         title: "Chats",
-                        tabBarIcon: ({ size, color }) => <Ionicons name="chatbubbles" size={size} color={color} />,
+                        tabBarIcon: ({ size, color }) => (
+                            <Ionicons name="chatbubbles" size={size} color={color} />
+                        ),
                     }}
                 />
                 <Tabs.Screen
