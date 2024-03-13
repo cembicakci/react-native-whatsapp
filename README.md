@@ -12,10 +12,3 @@
 	<img src="./assets/screenshots/7.png" width=30%>
 	<img src="./assets/screenshots/8.png" width=30%>
 </div>
-
-<div style="display: flex; flex-direction: 'row';">
-	<img src="./assets/screenshots/calls.gif" width=40%>
-	<img src="./assets/screenshots/chats.gif" width=40%>
-	<img src="./assets/screenshots/contacts.gif" width=40%>
-	<img src="./assets/screenshots/messages.gif" width=40%>
-</div>
