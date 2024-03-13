@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Stack } from "expo-router";
 import Colors from "@/constants/Colors";
-import { TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Layout = () => {
@@ -42,6 +42,47 @@ const Layout = () => {
                                 </Link>
                             </View>
                         );
+                    },
+                }}
+            />
+            <Stack.Screen
+                name="[id]"
+                options={{
+                    title: "",
+                    headerBackTitleVisible: false,
+                    headerRight: () => {
+                        return (
+                            <View style={{ flexDirection: "row", gap: 30 }}>
+                                <TouchableOpacity>
+                                    <Ionicons name="videocam-outline" color={Colors.primary} size={30} />
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Ionicons name="call-outline" color={Colors.primary} size={30} />
+                                </TouchableOpacity>
+                            </View>
+                        );
+                    },
+                    headerTitle: () => {
+                        return (
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    gap: 10,
+                                    paddingBottom: 4,
+                                    alignItems: "center",
+                                    width: 220,
+                                }}
+                            >
+                                <Image
+                                    source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
+                                    style={{ width: 40, height: 40, borderRadius: 50 }}
+                                />
+                                <Text style={{ fontSize: 16, fontWeight: "500" }}>Cem Bıçakcı</Text>
+                            </View>
+                        );
+                    },
+                    headerStyle: {
+                        backgroundColor: Colors.background,
                     },
                 }}
             />
